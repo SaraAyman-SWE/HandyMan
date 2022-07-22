@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32602.215
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HandyMan", "HandyMan.csproj", "{03BF0EDF-2FD3-485A-BCA5-4FB41837C21A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{03BF0EDF-2FD3-485A-BCA5-4FB41837C21A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03BF0EDF-2FD3-485A-BCA5-4FB41837C21A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03BF0EDF-2FD3-485A-BCA5-4FB41837C21A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03BF0EDF-2FD3-485A-BCA5-4FB41837C21A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E0FC907D-51D9-4C59-80E0-2F9A4E48AB28}
+	EndGlobalSection
+EndGlobal

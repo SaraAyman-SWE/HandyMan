@@ -1,0 +1,67 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "Handyman_DBContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": true,
+   "ModelNamespace": null,
+   "OutputContextPath": "Data",
+   "OutputPath": "Models",
+   "ProjectRootNamespace": "HandyMan",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[Client]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Craft]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Handyman]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Handyman_Region]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Payment]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Region]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Request]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Schedule]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "SHAHEER-DELL\\SS17.Handyman_DB",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": true,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": false,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false
+}
