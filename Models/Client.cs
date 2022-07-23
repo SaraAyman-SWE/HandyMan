@@ -19,20 +19,22 @@ namespace HandyMan.Models
 
         [Key]
         public int Client_ID { get; set; }
-        [Required]
-        [StringLength(50)]
+        [Required(ErrorMessage = "Name is required")]
+        [StringLength(50, ErrorMessage = "Name can't be longer than 50 characters")]
         [Unicode(false)]
         public string Client_name { get; set; }
         public int Region_ID { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Email is required")]
+        [EmailAddress(ErrorMessage = "Invalid Email")]
         [StringLength(50)]
         [Unicode(false)]
         public string Client_Email { get; set; }
-        [Required]
-        [StringLength(100)]
+        [Required(ErrorMessage = "Address is required")]
+        [StringLength(100, ErrorMessage = "Address cannot be longer than 100 characters")]
         [Unicode(false)]
         public string Client_Address { get; set; }
-        [Required]
+        [Required(ErrorMessage = "Mobile is required")]
+        [RegularExpression(@"^([0-9]{11})$", ErrorMessage = "Invalid Mobile Number.")]
         [StringLength(11)]
         [Unicode(false)]
         public string Client_Mobile { get; set; }
@@ -40,11 +42,6 @@ namespace HandyMan.Models
         [Unicode(false)]
         [DataType(DataType.Password)]
         public string Password { get; set; }
-
-        [NotMapped]
-        [Compare("Password")]
-        [DataType(DataType.Password)]
-        public string CPassword { get; set; }
 
         [ForeignKey("Region_ID")]
         [InverseProperty("Clients")]
@@ -54,10 +51,10 @@ namespace HandyMan.Models
 
         [NotMapped]
         [Range(-99, 99)]
-        public double Balance { get; set; }
+        public double? Balance { get; set; }
 
         [NotMapped]
-        [Range(1,5)]
-        public double Rating { get; set; }
+        [Range(1, 5)]
+        public double? Rating { get; set; }
     }
 }
