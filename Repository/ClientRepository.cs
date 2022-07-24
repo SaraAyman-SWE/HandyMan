@@ -24,6 +24,13 @@ namespace HandyMan.Repository
             return await _context.Clients.FindAsync(id);
         }
 
+        public async Task<Client> GetClientByEmail(string email)
+        {
+
+            var client = await _context.Clients.SingleOrDefaultAsync(c => c.Client_Email == email);
+            return client;
+        }
+
         public async void CreateClient(Client client)
         {
             await _context.Clients.AddAsync(client);

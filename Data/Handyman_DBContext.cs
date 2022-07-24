@@ -5,10 +5,11 @@ using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using HandyMan.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace HandyMan.Data
 {
-    public partial class Handyman_DBContext : DbContext
+    public partial class Handyman_DBContext : IdentityDbContext<User>
     {
         public Handyman_DBContext()
         {
@@ -38,6 +39,7 @@ namespace HandyMan.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Client>(entity =>
             {
                 entity.HasOne(d => d.Region)

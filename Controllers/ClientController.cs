@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using HandyMan.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,19 +18,23 @@ namespace HandyMan.Controllers
     public class ClientController : ControllerBase
     {
         private readonly IClientRepository _clientRepository;
+        private readonly IMapper _mapper;
 
-        public ClientController(IClientRepository clientRepository)
+        public ClientController(IClientRepository clientRepository, IMapper mapper)
         {
             _clientRepository = clientRepository;
+            _mapper = mapper;
         }
 
         // GET: api/Client
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Client>>> GetClients()
+        public async Task<ActionResult<IEnumerable<ClientDto>>> GetClients()
         {
             try
             {
-                return Ok(await _clientRepository.GetClientsAsync());
+                var clients = await _clientRepository.GetClientsAsync();
+                var clientsToReturn = _mapper.Map<IEnumerable<ClientDto>>(clients);
+                return Ok(clientsToReturn);
             }
             catch
             {
@@ -38,7 +44,7 @@ namespace HandyMan.Controllers
 
         // GET: api/Client/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Client>> GetClient(int id)
+        public async Task<ActionResult<ClientDto>> GetClient(int id)
         {
             try
             {
@@ -47,7 +53,7 @@ namespace HandyMan.Controllers
                 {
                     return NotFound(new { message = "Client Is Not Found!" });
                 }
-                return client;
+                return _mapper.Map<ClientDto>(client);
             }
             catch
             {
@@ -64,6 +70,8 @@ namespace HandyMan.Controllers
             {
                 return NotFound(new { message = "Client Is Not Found!" });
             }
+
+            //var client = _mapper.Map<ClientDto>(clientDto);
             _clientRepository.EditClient(client);
             try
             {
