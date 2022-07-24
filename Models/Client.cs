@@ -23,12 +23,13 @@ namespace HandyMan.Models
         [StringLength(50, ErrorMessage = "Name can't be longer than 50 characters")]
         [Unicode(false)]
         public string Client_name { get; set; }
-        public int Region_ID { get; set; }
+
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid Email")]
         [StringLength(50)]
         [Unicode(false)]
         public string Client_Email { get; set; }
+
         [Required(ErrorMessage = "Address is required")]
         [StringLength(100, ErrorMessage = "Address cannot be longer than 100 characters")]
         [Unicode(false)]
@@ -41,6 +42,8 @@ namespace HandyMan.Models
         [StringLength(50)]
         [Unicode(false)]
         public string Password { get; set; }
+
+        public int Region_ID { get; set; }
 
         [ForeignKey("Region_ID")]
         [InverseProperty("Clients")]

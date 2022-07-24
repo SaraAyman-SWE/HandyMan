@@ -12,11 +12,9 @@ namespace HandyMan.Dtos
         [Required(ErrorMessage = "Name is required")]
         [StringLength(50, ErrorMessage = "Name can't be longer than 50 characters")]
         public string Client_name { get; set; }
-        public int Region_ID { get; set; }
 
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid Email")]
-        [StringLength(50)]
         public string Client_Email { get; set; }
 
         [Required(ErrorMessage = "Address is required")]
@@ -28,11 +26,10 @@ namespace HandyMan.Dtos
         [StringLength(11)]
         public string Client_Mobile { get; set; }
 
-        [StringLength(50)]
         public string Password { get; set; }
 
-        public virtual Region? Region { get; set; }
-        
+        public int Region_ID { get; set; }
+
         public virtual ICollection<RequestDto>? Requests { get; set; }
 
         [Range(-99, 99)]
