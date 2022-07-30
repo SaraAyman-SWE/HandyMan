@@ -18,7 +18,7 @@ namespace HandyMan.Models
         public DateTime Schedule_Date { get; set; }
         [Key]
         public TimeSpan Time_From { get; set; }
-        public TimeSpan? Time_To { get; set; }
+        public TimeSpan Time_To { get; set; }
 
         [ForeignKey("Handy_SSN")]
         [InverseProperty("Schedules")]

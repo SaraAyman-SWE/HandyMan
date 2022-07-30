@@ -34,26 +34,32 @@ namespace HandyMan.Models
         public bool? Approved { get; set; }
         public bool? Open_For_Work { get; set; }
         [Unicode(false)]
-        public string Handyman_Photo { get; set; }
+        public string? Handyman_Photo { get; set; }
         [StringLength(50)]
         [Unicode(false)]
-        public string Handyman_ID_Image { get; set; }
+        public string? Handyman_ID_Image { get; set; }
         [Unicode(false)]
-        public string Handyman_Criminal_Record { get; set; }
+        public string? Handyman_Criminal_Record { get; set; }
         [StringLength(50)]
         [Unicode(false)]
         public string Password { get; set; }
 
+        public int? Balance { get; set; } = 0;
+
+        [NotMapped]
+        [Range(1, 5)]
+        public double? Rating { get; set; }
+
         [ForeignKey("CraftID")]
         [InverseProperty("Handymen")]
-        public virtual Craft Craft { get; set; }
+        public virtual Craft? Craft { get; set; }
         [InverseProperty("Handyman_SSNNavigation")]
-        public virtual ICollection<Request> Requests { get; set; }
+        public virtual ICollection<Request>? Requests { get; set; }
         [InverseProperty("Handy_SSNNavigation")]
-        public virtual ICollection<Schedule> Schedules { get; set; }
+        public virtual ICollection<Schedule>? Schedules { get; set; }
 
         [ForeignKey("Handyman_SSN")]
         [InverseProperty("Handyman_SSNs")]
-        public virtual ICollection<Region> Regions { get; set; }
+        public virtual ICollection<Region>? Regions { get; set; }
     }
 }

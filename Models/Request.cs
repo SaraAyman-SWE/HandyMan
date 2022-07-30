@@ -19,29 +19,42 @@ namespace HandyMan.Models
 
         [Key]
         public int Request_ID { get; set; }
+
+        [Required]
         public int Handyman_SSN { get; set; }
+
+        [Required]
         public int Client_ID { get; set; }
-        public int? Request_Status { get; set; }
-        [Column(TypeName = "date")]
-        public DateTime? Request_Date { get; set; }
+
+        [Required]
+        public int Request_Status { get; set; } = 1;
+
+        [Required]
         [Column(TypeName = "datetime")]
-        public DateTime Request_Order_Date { get; set; }
+        public DateTime Request_Date { get; set; }
+
+        [Required]
+        [Column(TypeName = "datetime")]
+        public DateTime Request_Order_Date { get; set; } = DateTime.Now;
         public int? Client_Rate { get; set; }
+
         [StringLength(100)]
         [Unicode(false)]
-        public string Client_Review { get; set; }
+        public string? Client_Review { get; set; }
         public int? Handy_Rate { get; set; }
         [StringLength(100)]
         [Unicode(false)]
-        public string Handy_Review { get; set; }
+        public string? Handy_Review { get; set; }
 
         [ForeignKey("Client_ID")]
         [InverseProperty("Requests")]
-        public virtual Client Client { get; set; }
+        public virtual Client? Client { get; set; }
+
         [ForeignKey("Handyman_SSN")]
         [InverseProperty("Requests")]
-        public virtual Handyman Handyman_SSNNavigation { get; set; }
+        public virtual Handyman? Handyman_SSNNavigation { get; set; }
+
         [InverseProperty("Request")]
-        public virtual ICollection<Payment> Payments { get; set; }
+        public virtual ICollection<Payment>? Payments { get; set; }
     }
 }

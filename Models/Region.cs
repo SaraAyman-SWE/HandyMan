@@ -25,10 +25,10 @@ namespace HandyMan.Models
         public string Region_Name { get; set; }
 
         [InverseProperty("Region")]
-        public virtual ICollection<Client> Clients { get; set; }
+        public virtual ICollection<Client>? Clients { get; set; }
 
         [ForeignKey("Region_ID")]
         [InverseProperty("Regions")]
-        public virtual ICollection<Handyman> Handyman_SSNs { get; set; }
+        public virtual ICollection<Handyman>? Handyman_SSNs { get; set; }
     }
 }

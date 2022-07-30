@@ -19,41 +19,37 @@ namespace HandyMan.Models
 
         [Key]
         public int Client_ID { get; set; }
-        [Required(ErrorMessage = "Name is required")]
-        [StringLength(50, ErrorMessage = "Name can't be longer than 50 characters")]
-        [Unicode(false)]
+        [Required]
+        [StringLength(50)]
         public string Client_name { get; set; }
 
-        [Required(ErrorMessage = "Email is required")]
-        [EmailAddress(ErrorMessage = "Invalid Email")]
+        [Required]
         [StringLength(50)]
-        [Unicode(false)]
         public string Client_Email { get; set; }
 
-        [Required(ErrorMessage = "Address is required")]
-        [StringLength(100, ErrorMessage = "Address cannot be longer than 100 characters")]
-        [Unicode(false)]
+        [Required]
+        [StringLength(100)]
         public string Client_Address { get; set; }
-        [Required(ErrorMessage = "Mobile is required")]
-        [RegularExpression(@"^([0-9]{11})$", ErrorMessage = "Invalid Mobile Number.")]
+
+        [Required]
         [StringLength(11)]
-        [Unicode(false)]
         public string Client_Mobile { get; set; }
+
         [StringLength(50)]
-        [Unicode(false)]
         public string Password { get; set; }
 
-        public int Region_ID { get; set; }
+        public int Region_ID { get; set; } = 0;
 
         [ForeignKey("Region_ID")]
         [InverseProperty("Clients")]
         public virtual Region? Region { get; set; }
+
         [InverseProperty("Client")]
         public virtual ICollection<Request>? Requests { get; set; }
 
-        [NotMapped]
+
         [Range(-99, 99)]
-        public double? Balance { get; set; }
+        public int? Balance { get; set; } = 0;
 
         [NotMapped]
         [Range(1, 5)]

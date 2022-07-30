@@ -15,17 +15,17 @@ namespace HandyMan.Models
         public int Payment_ID { get; set; }
         [Key]
         public int Request_ID { get; set; }
-        public bool? Payment_Status { get; set; }
-        public bool Method { get; set; }
+        public bool? Payment_Status { get; set; } = false;//false == not collected - true == collected
+        public bool Method { get; set; } = false; // false== cash
         [Column(TypeName = "datetime")]
         public DateTime? Payment_Date { get; set; }
-        public int Payment_Amount { get; set; }
+        public int Payment_Amount { get; set; } = 0;
         [StringLength(50)]
         [Unicode(false)]
-        public string Transaction_ID { get; set; }
+        public string? Transaction_ID { get; set; }
 
         [ForeignKey("Request_ID")]
         [InverseProperty("Payments")]
-        public virtual Request Request { get; set; }
+        public virtual Request? Request { get; set; }
     }
 }

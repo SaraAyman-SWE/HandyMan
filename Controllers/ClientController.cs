@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using HandyMan.Interfaces;
 using HandyMan.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace HandyMan.Controllers
 {
@@ -27,6 +29,7 @@ namespace HandyMan.Controllers
 
         // GET: api/Client
         [HttpGet]
+        [Authorize(Policy ="Admin")]
         public async Task<ActionResult<IEnumerable<ClientDto>>> GetClients()
         {
             try
@@ -41,13 +44,45 @@ namespace HandyMan.Controllers
             }
         }
 
+
         // GET: api/Client/5
-        [HttpGet("{id}")]
-        public async Task<ActionResult<ClientDto>> GetClient(int id)
+        [HttpGet("{id:int}")]
+        [Authorize(Policy ="Client")]
+
+        // Problem when be called from The frontend (Request Operation)
+        // Suggested Solution -> New GetClientForRequest Function with Handyman Authorization  
+        // must have Handyman ID , (Request ID , Client ID) --> Comes from the Front 
+        public async Task<ActionResult<ClientDto>> GetClient(int id, [FromHeader] string Authorization)
         {
+            JwtSecurityToken t = (JwtSecurityToken)new JwtSecurityTokenHandler().ReadToken(Authorization.Substring(7));
+            var x = t.Claims.ToList();
+
+            if (x[0].Value != id.ToString() && x[2].Value != "Admin")
+            {
+                return Unauthorized();
+            }
             try
             {
                 var client = await _clientRepository.GetClientByIdAsync(id);
+                if (client == null)
+                {
+                    return NotFound(new { message = "Client Is Not Found!" });
+                }
+                _clientRepository.CalculateClientRate(client);
+                return _mapper.Map<ClientDto>(client);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+        [HttpGet("{email}")]
+        public async Task<ActionResult<ClientDto>> GetClientByEmail(string email)
+        {
+            try
+            {
+                Client client = await _clientRepository.GetClientByEmail(email);
                 if (client == null)
                 {
                     return NotFound(new { message = "Client Is Not Found!" });
@@ -63,8 +98,17 @@ namespace HandyMan.Controllers
         // PUT: api/Client/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> EditClient(int id, ClientDto clientDto)
+        [Authorize(Policy = "Client")]
+        public async Task<IActionResult> EditClient(int id, ClientDto clientDto, [FromHeader] string Authorization)
         {
+            JwtSecurityToken t = (JwtSecurityToken)new JwtSecurityTokenHandler().ReadToken(Authorization.Substring(7));
+            var x = t.Claims.ToList();
+
+            if (x[0].Value != id.ToString() && x[2].Value != "Admin")
+            {
+                return Unauthorized();
+            }
+
             if (id != clientDto.Client_ID)
             {
                 return NotFound(new { message = "Client Is Not Found!" });
@@ -81,12 +125,13 @@ namespace HandyMan.Controllers
                 return BadRequest();
             }
 
-            return NoContent();
+            return CreatedAtAction("GetClient", new { id = clientDto.Client_ID }, clientDto);
         }
 
         // POST: api/Client
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost("/api/Register/Client")]
+        [AllowAnonymous]
         public async Task<ActionResult<ClientDto>> PostClient(ClientDto clientDto)
         {
             if (clientDto == null)
@@ -116,16 +161,36 @@ namespace HandyMan.Controllers
 
         // DELETE: api/Client/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteClient(int id)
+        [Authorize(Policy = "Client")]
+        public async Task<IActionResult> DeleteClient(int id, [FromHeader] string Authorization)
         {
+            JwtSecurityToken t = (JwtSecurityToken)new JwtSecurityTokenHandler().ReadToken(Authorization.Substring(7));
+            var x = t.Claims.ToList();
+
+
+            if (x[0].Value != id.ToString() && x[2].Value != "Admin")
+            {
+                return Unauthorized();
+            }
+            var client = await _clientRepository.GetClientByIdAsync(id);
+            if (client == null)
+            {
+                return NotFound(new { message = "Client Not Found!" });
+            }
+            // Check balance
+            if (client.Balance != 0)
+            {
+                return BadRequest(new { message = "You have an outstanding balance, Delete failed !!" });
+            }
+
             try
             {
-                _clientRepository.DeleteClientById(id);
+                _clientRepository.DeleteClient(client);
                 await _clientRepository.SaveAllAsync();
             }
             catch
             {
-                return NotFound(new { message = "Client Is Not Found!" });
+                return BadRequest(new { message = "Delete Failed!" });
             }
 
             return NoContent();
